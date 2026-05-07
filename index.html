@@ -494,6 +494,112 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
 /* Loading spinner */
 .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.72);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal-card {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 24px;
+  width: 100%; max-width: 500px; max-height: 88vh;
+  overflow-y: auto; position: relative;
+}
+.modal-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 12px; }
+.modal-title { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.3; }
+.btn-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 20px; line-height: 1; padding: 2px 6px; border-radius: 6px; transition: all 0.12s; flex-shrink: 0; }
+.btn-close:hover { color: var(--text); background: var(--bg3); }
+.modal-footer { display: flex; gap: 8px; margin-top: 20px; justify-content: flex-end; }
+.btn-secondary { padding: 10px 18px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; font-size: 13px; font-weight: 700; font-family: var(--sans); color: var(--text2); cursor: pointer; transition: all 0.12s; }
+.btn-secondary:hover { border-color: var(--border3); color: var(--text); }
+.btn-save { padding: 10px 20px; background: var(--accent); border: none; border-radius: 10px; font-size: 13px; font-weight: 800; font-family: var(--sans); color: #fff; cursor: pointer; transition: all 0.12s; }
+.btn-save:hover { background: var(--accent2); }
+
+/* ═══════════════════════════════════════════
+   HISTORY MODAL
+   ═══════════════════════════════════════════ */
+.hist-meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.hist-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.hist-row:last-child { border-bottom: none; }
+.hist-date { font-family: var(--mono); font-size: 11px; color: var(--muted); min-width: 90px; }
+.hist-rating { font-weight: 700; flex: 1; }
+.hist-time { font-family: var(--mono); font-size: 11px; color: var(--muted); min-width: 50px; text-align: right; }
+
+/* ═══════════════════════════════════════════
+   TIMER + NOTES + LC LINK (Today cards)
+   ═══════════════════════════════════════════ */
+.lc-link { color: var(--muted); text-decoration: none; font-family: var(--mono); font-size: 12px; font-weight: 500; transition: color 0.12s; }
+.lc-link:hover { color: var(--accent2); text-decoration: underline; }
+.ef-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.timer-display { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--bg3); padding: 2px 8px; border-radius: 10px; }
+.icon-btn { background: none; border: 1px solid var(--border2); border-radius: 7px; padding: 5px 7px; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: all 0.12s; flex-shrink: 0; }
+.icon-btn:hover { border-color: var(--accent); color: var(--accent2); }
+.icon-btn-del:hover { border-color: var(--red); color: var(--red); }
+.notes-section { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 8px; }
+.notes-toggle { background: none; border: none; color: var(--muted); font-size: 11px; font-weight: 600; font-family: var(--sans); cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 0; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.12s; }
+.notes-toggle:hover { color: var(--text2); }
+.notes-toggle svg { transition: transform 0.15s; }
+.notes-body { margin-top: 8px; }
+.notes-ta { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13px; font-family: var(--sans); color: var(--text); outline: none; resize: vertical; min-height: 72px; transition: border-color 0.15s; }
+.notes-ta:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.notes-ta::placeholder { color: var(--muted); }
+
+/* ═══════════════════════════════════════════
+   QUESTIONS / LIBRARY PAGE
+   ═══════════════════════════════════════════ */
+.lib-header { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+.lib-search { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 16px; font-size: 14px; font-family: var(--sans); color: var(--text); outline: none; transition: border-color 0.15s; }
+.lib-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.lib-search::placeholder { color: var(--muted); }
+.btn-add-toggle { padding: 10px 16px; background: var(--accent); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 800; font-family: var(--sans); color: #fff; cursor: pointer; white-space: nowrap; transition: all 0.12s; flex-shrink: 0; }
+.btn-add-toggle:hover { background: var(--accent2); }
+.lib-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.lib-item:last-child { border-bottom: none; }
+.lib-num { font-family: var(--mono); font-size: 12px; color: var(--muted); min-width: 42px; text-decoration: none; transition: color 0.12s; flex-shrink: 0; }
+.lib-num:hover { color: var(--accent2); }
+.lib-title { flex: 1; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lib-topic { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.lib-actions { display: flex; gap: 4px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════
+   HEATMAP
+   ═══════════════════════════════════════════ */
+.hm-wrap { overflow-x: auto; padding-bottom: 4px; }
+.hm-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 11px);
+  grid-auto-columns: 11px;
+  grid-auto-flow: column;
+  gap: 2px;
+  min-width: max-content;
+}
+.hm-cell { width: 11px; height: 11px; border-radius: 2px; }
+.hm-legend { display: flex; align-items: center; gap: 4px; margin-top: 8px; font-size: 10px; color: var(--muted); }
+.hm-legend-cells { display: flex; gap: 2px; }
+.hm-legend-cell { width: 11px; height: 11px; border-radius: 2px; }
+
+/* ═══════════════════════════════════════════
+   CHARTS
+   ═══════════════════════════════════════════ */
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.chart-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.chart-title { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE (additions)
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .charts-row { grid-template-columns: 1fr; }
+  .lib-topic { display: none; }
+  .modal-card { padding: 18px; }
+  .lib-header { flex-wrap: wrap; }
+  .lib-search { min-width: 0; }
+}
 </style>
 
 <!-- Firebase SDK (compat for simple script-tag usage) -->
@@ -542,9 +648,9 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         Schedule
       </button>
-      <button class="sidebar-btn" onclick="go('add',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        Add Question
+      <button class="sidebar-btn" onclick="go('questions',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+        Questions
       </button>
       <button class="sidebar-btn" onclick="go('prog',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -594,40 +700,50 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
         </div>
       </div>
 
-      <!-- ADD -->
-      <div class="page" id="p-add">
+      <!-- QUESTIONS -->
+      <div class="page" id="p-questions">
         <div class="page-inner">
           <div class="hero">
-            <h2>Add <em>Question</em></h2>
+            <h2>My <em>Questions</em></h2>
           </div>
-          <div class="form-card">
-            <div class="fg">
-              <div class="fg-label">Question Number</div>
-              <input class="fg-input" id="inp-num" type="number" placeholder="e.g. 236" min="1" max="9999">
-            </div>
-            <div class="fg">
-              <div class="fg-label">Title</div>
-              <input class="fg-input" id="inp-title" type="text" placeholder="e.g. Lowest Common Ancestor">
-            </div>
-            <div class="fg">
-              <div class="fg-label">Topic</div>
-              <select class="fg-select" id="inp-topic">
-                <option>Tree</option><option>Graph</option><option>Array</option><option>HashMap</option>
-                <option>Linked List</option><option>Dynamic Programming</option><option>Two Pointers</option>
-                <option>BFS/DFS</option><option>Binary Search</option><option>Stack/Queue</option>
-                <option>Sliding Window</option><option>Greedy</option><option>Backtracking</option><option>Other</option>
-              </select>
-            </div>
-            <div class="fg">
-              <div class="fg-label">Difficulty</div>
-              <div class="diff-opts" id="diff-opts">
-                <div class="diff-opt sel-easy" data-d="Easy" onclick="pickDiff(this)">Easy</div>
-                <div class="diff-opt" data-d="Medium" onclick="pickDiff(this)">Medium</div>
-                <div class="diff-opt" data-d="Hard" onclick="pickDiff(this)">Hard</div>
+          <div class="lib-header">
+            <input class="lib-search" id="lib-search" type="search" placeholder="Search by #, title, or topic…" oninput="searchLibrary()">
+            <button class="btn-add-toggle" id="toggle-add-btn" onclick="toggleAddForm()">+ Add Question</button>
+          </div>
+          <div id="add-form-wrap" style="display:none">
+            <div class="form-card" style="max-width:none;margin-bottom:16px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="fg">
+                  <div class="fg-label">Question Number</div>
+                  <input class="fg-input" id="inp-num" type="number" placeholder="e.g. 236" min="1" max="9999">
+                </div>
+                <div class="fg">
+                  <div class="fg-label">Topic</div>
+                  <select class="fg-select" id="inp-topic">
+                    <option>Tree</option><option>Graph</option><option>Array</option><option>HashMap</option>
+                    <option>Linked List</option><option>Dynamic Programming</option><option>Two Pointers</option>
+                    <option>BFS/DFS</option><option>Binary Search</option><option>Stack/Queue</option>
+                    <option>Sliding Window</option><option>Greedy</option><option>Backtracking</option><option>Other</option>
+                  </select>
+                </div>
               </div>
+              <div class="fg">
+                <div class="fg-label">Title</div>
+                <input class="fg-input" id="inp-title" type="text" placeholder="e.g. Lowest Common Ancestor of BST">
+              </div>
+              <div class="fg">
+                <div class="fg-label">Difficulty</div>
+                <div class="diff-opts" id="diff-opts">
+                  <div class="diff-opt sel-easy" data-d="Easy" onclick="pickDiff(this)">Easy</div>
+                  <div class="diff-opt" data-d="Medium" onclick="pickDiff(this)">Medium</div>
+                  <div class="diff-opt" data-d="Hard" onclick="pickDiff(this)">Hard</div>
+                </div>
+              </div>
+              <button class="btn-primary" onclick="addQ()">Add to queue →</button>
             </div>
-            <button class="btn-primary" onclick="addQ()">Add to queue →</button>
           </div>
+          <div class="sec"><span id="lib-count">0 questions</span></div>
+          <div id="lib-list"></div>
         </div>
       </div>
 
@@ -640,6 +756,32 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
           <div class="prog-grid" id="prog-grid"></div>
           <div class="sec">By topic</div>
           <div id="topics"></div>
+          <div class="sec" style="margin-top:28px">Activity heatmap</div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px">
+            <div class="hm-wrap"><div class="hm-grid" id="heatmap"></div></div>
+            <div class="hm-legend">
+              <span>Less</span>
+              <div class="hm-legend-cells">
+                <div class="hm-legend-cell" style="background:var(--bg3)"></div>
+                <div class="hm-legend-cell" style="background:rgba(108,92,231,0.3)"></div>
+                <div class="hm-legend-cell" style="background:rgba(108,92,231,0.5)"></div>
+                <div class="hm-legend-cell" style="background:rgba(108,92,231,0.7)"></div>
+                <div class="hm-legend-cell" style="background:var(--accent2)"></div>
+              </div>
+              <span>More</span>
+            </div>
+          </div>
+          <div class="sec" style="margin-top:16px">Performance charts</div>
+          <div class="charts-row">
+            <div class="chart-card">
+              <div class="chart-title">EF Distribution</div>
+              <div id="ef-chart"></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Daily Reviews (14d)</div>
+              <div id="review-chart"></div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- SETTINGS -->
@@ -719,6 +861,21 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
             <div class="pool-preview" id="pool-preview"></div>
           </div>
 
+          <!-- Import / Export -->
+          <div class="settings-card">
+            <div class="sc-hdr">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Import / Export
+            </div>
+            <div class="sc-sub">Back up your questions or bulk-import from CSV</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn-secondary" onclick="exportCSV()">↓ Export CSV</button>
+              <button class="btn-secondary" onclick="document.getElementById('csv-import').click()">↑ Import CSV</button>
+              <input type="file" id="csv-import" accept=".csv" style="display:none" onchange="importCSV(event)">
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:10px">CSV columns: num, title, topic, diff — extra columns preserved on export</div>
+          </div>
+
           <!-- Reset -->
           <div class="settings-card" style="border-color: rgba(255,107,107,0.15);">
             <div class="sc-hdr" style="color:var(--red);">
@@ -744,9 +901,9 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           Schedule
         </button>
-        <button class="nav-btn" onclick="go('add',this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          Add
+        <button class="nav-btn" onclick="go('questions',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+          Questions
         </button>
         <button class="nav-btn" onclick="go('prog',this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -758,6 +915,73 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
         </button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-overlay" onclick="closeEdit()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title">Edit Question</div>
+      <button class="btn-close" onclick="closeEdit()">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="fg">
+        <div class="fg-label">Question Number</div>
+        <input class="fg-input" id="edit-num" type="number" min="1" max="9999">
+      </div>
+      <div class="fg">
+        <div class="fg-label">Topic</div>
+        <select class="fg-select" id="edit-topic">
+          <option>Tree</option><option>Graph</option><option>Array</option><option>HashMap</option>
+          <option>Linked List</option><option>Dynamic Programming</option><option>Two Pointers</option>
+          <option>BFS/DFS</option><option>Binary Search</option><option>Stack/Queue</option>
+          <option>Sliding Window</option><option>Greedy</option><option>Backtracking</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="fg-label">Title</div>
+      <input class="fg-input" id="edit-title" type="text">
+    </div>
+    <div class="fg">
+      <div class="fg-label">Difficulty</div>
+      <div class="diff-opts">
+        <div class="diff-opt" data-d="Easy" onclick="pickEditDiff(this)">Easy</div>
+        <div class="diff-opt" data-d="Medium" onclick="pickEditDiff(this)">Medium</div>
+        <div class="diff-opt" data-d="Hard" onclick="pickEditDiff(this)">Hard</div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="fg-label">Notes</div>
+      <textarea class="notes-ta" id="edit-notes" placeholder="Hints, approach, key insight…" style="min-height:80px"></textarea>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <button class="btn-danger" onclick="deleteFromEdit()">Delete question</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn-secondary" onclick="closeEdit()">Cancel</button>
+        <button class="btn-save" onclick="saveEdit()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY MODAL -->
+<div class="modal-overlay" id="history-overlay" onclick="closeHistory()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div>
+        <div class="modal-title" id="hist-title"></div>
+        <div class="hist-meta" id="hist-meta"></div>
+      </div>
+      <button class="btn-close" onclick="closeHistory()">×</button>
+    </div>
+    <div style="display:flex;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--border);gap:10px">
+      <span style="min-width:90px">Date</span>
+      <span style="flex:1">Rating</span>
+      <span style="min-width:50px;text-align:right">Time</span>
+    </div>
+    <div id="hist-rows"></div>
   </div>
 </div>
 
@@ -777,14 +1001,22 @@ const auth = firebase.auth();
 const fdb = firebase.firestore();
 fdb.enablePersistence().catch(()=>{});
 
-let currentUser = null;
-let isSignUp = false;
-let saveTimer = null;
+let currentUser = null, isSignUp = false, saveTimer = null;
+
+// ═══════ NEW STATE ═══════
+const timerStarts = {};   // { id: Date.now() }
+let editingId = null, editSelDiff = 'Medium', libSearch = '';
+
+// Global timer tick — updates all visible timer displays every second
+setInterval(() => {
+  Object.keys(timerStarts).forEach(id => {
+    const el = document.getElementById('timer-' + id);
+    if (el) el.textContent = fmtTime(Math.round((Date.now() - timerStarts[id]) / 1000));
+  });
+}, 1000);
 
 // ═══════ AUTH ═══════
-function googleSignIn(){
-  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>showAuthError(e.message));
-}
+function googleSignIn(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>showAuthError(e.message));}
 function emailAuth(){
   const email=document.getElementById('auth-email').value.trim();
   const pass=document.getElementById('auth-pass').value;
@@ -797,14 +1029,13 @@ function emailAuth(){
     if(e.code==='auth/wrong-password')msg='Incorrect password.';
     if(e.code==='auth/email-already-in-use')msg='Email already registered. Try signing in.';
     if(e.code==='auth/weak-password')msg='Password must be at least 6 characters.';
-    showAuthError(msg);
-    document.getElementById('auth-submit').disabled=false;
+    showAuthError(msg);document.getElementById('auth-submit').disabled=false;
   });
 }
 function toggleAuthMode(){
   isSignUp=!isSignUp;
   document.getElementById('auth-submit').textContent=isSignUp?'Create account':'Sign in';
-  document.getElementById('auth-toggle-text').textContent=isSignUp?'Already have an account?':'Don\'t have an account?';
+  document.getElementById('auth-toggle-text').textContent=isSignUp?'Already have an account?':"Don't have an account?";
   document.getElementById('auth-toggle-link').textContent=isSignUp?'Sign in':'Sign up';
   document.getElementById('auth-error').textContent='';
 }
@@ -821,10 +1052,9 @@ auth.onAuthStateChanged(async(user)=>{
     document.getElementById('user-name').textContent=name;
     document.getElementById('user-email').textContent=user.email;
     const av=document.getElementById('user-avatar');
-    if(user.photoURL){av.innerHTML='<img src="'+user.photoURL+'" alt="">';}
-    else{av.textContent=name.charAt(0).toUpperCase();}
-    await loadFromCloud();
-    render();
+    if(user.photoURL)av.innerHTML='<img src="'+user.photoURL+'" alt="">';
+    else av.textContent=name.charAt(0).toUpperCase();
+    await loadFromCloud();render();
   } else {
     currentUser=null;
     document.getElementById('auth-screen').classList.remove('hidden');
@@ -865,13 +1095,13 @@ function defaults(){
   const t=tds();
   return {
     qs:[
-      {id:1,num:236,title:"Lowest Common Ancestor of BST",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t},
-      {id:2,num:102,title:"Level Order Traversal",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t},
-      {id:3,num:200,title:"Number of Islands",topic:"Graph",diff:"Medium",ef:2.3,interval:1,due:t,sessions:[],added:t},
-      {id:4,num:1,title:"Two Sum",topic:"HashMap",diff:"Easy",ef:2.9,interval:14,due:ad(t,10),sessions:[{d:ad(t,-4),r:5}],added:ad(t,-4)},
-      {id:5,num:21,title:"Merge Two Sorted Lists",topic:"Linked List",diff:"Easy",ef:2.7,interval:6,due:ad(t,2),sessions:[{d:ad(t,-4),r:4}],added:ad(t,-4)},
-      {id:6,num:42,title:"Trapping Rain Water",topic:"Two Pointers",diff:"Hard",ef:2.1,interval:1,due:ad(t,3),sessions:[],added:ad(t,-1)},
-      {id:7,num:300,title:"Longest Increasing Subsequence",topic:"Dynamic Programming",diff:"Medium",ef:2.5,interval:1,due:ad(t,1),sessions:[],added:ad(t,-1)},
+      {id:1,num:236,title:"Lowest Common Ancestor of BST",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t,notes:''},
+      {id:2,num:102,title:"Level Order Traversal",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t,notes:''},
+      {id:3,num:200,title:"Number of Islands",topic:"Graph",diff:"Medium",ef:2.3,interval:1,due:t,sessions:[],added:t,notes:''},
+      {id:4,num:1,title:"Two Sum",topic:"HashMap",diff:"Easy",ef:2.9,interval:14,due:ad(t,10),sessions:[{d:ad(t,-4),r:5,t:30}],added:ad(t,-4),notes:''},
+      {id:5,num:21,title:"Merge Two Sorted Lists",topic:"Linked List",diff:"Easy",ef:2.7,interval:6,due:ad(t,2),sessions:[{d:ad(t,-4),r:4,t:55}],added:ad(t,-4),notes:''},
+      {id:6,num:42,title:"Trapping Rain Water",topic:"Two Pointers",diff:"Hard",ef:2.1,interval:1,due:ad(t,3),sessions:[],added:ad(t,-1),notes:''},
+      {id:7,num:300,title:"Longest Increasing Subsequence",topic:"Dynamic Programming",diff:"Medium",ef:2.5,interval:1,due:ad(t,1),sessions:[],added:ad(t,-1),notes:''},
     ],
     nid:8,streak:1,lastStudy:t,done:[],
     settings:{dailyLimit:5,topics:[],diffs:['Easy','Medium','Hard']}
@@ -882,16 +1112,26 @@ function saveLocal(){try{localStorage.setItem(SK,JSON.stringify(S));}catch{}}
 function save(){debounceSave();}
 let S=loadLocal();
 
+// ═══════ UTILITIES ═══════
 function tds(){return new Date().toISOString().slice(0,10);}
 function ad(s,n){const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
 function daysBetween(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5);}
 function sm2ef(ef,r){return Math.round(Math.max(1.3,ef+0.1-(5-r)*(0.08+(5-r)*0.02))*100)/100;}
 function sm2int(i,ef,r){if(r<3)return 1;if(i<=1)return 1;if(i===1)return 6;return Math.round(i*ef);}
 
+function lcSlug(title){return title.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');}
+function fmtTime(s){if(s<60)return s+'s';return Math.floor(s/60)+'m '+(s%60)+'s';}
+function startTimer(id){if(!timerStarts[id])timerStarts[id]=Date.now();}
+function getElapsed(id){return timerStarts[id]?Math.round((Date.now()-timerStarts[id])/1000):0;}
+function clearTimer(id){delete timerStarts[id];}
+
+// ═══════ RATE (with timer capture) ═══════
 function rate(id,r){
+  const secs=getElapsed(id);clearTimer(id);
   const q=S.qs.find(x=>x.id===id);if(!q)return;
   const t=tds();
-  q.sessions.push({d:t,r});q.ef=sm2ef(q.ef,r);
+  q.sessions.push({d:t,r,t:secs});
+  q.ef=sm2ef(q.ef,r);
   q.interval=sm2int(q.interval<=1&&q.sessions.length<=1?0:q.interval,q.ef,r);
   q.due=ad(t,q.interval);
   if(!S.done.includes(id))S.done.push(id);
@@ -909,7 +1149,9 @@ function due(){
   return pool.slice(0,st.dailyLimit||5);
 }
 
-function render(){renderToday();renderSched();renderProg();renderSettings();
+// ═══════ RENDER ═══════
+function render(){
+  renderToday();renderSched();renderProg();renderSettings();renderLibrary();
   const s=S.streak;
   document.getElementById('streak-orb').textContent=s;
   document.getElementById('streak-text').textContent=s+' day streak';
@@ -935,13 +1177,23 @@ function renderToday(){
     const dn=S.done.includes(q.id),nw=!q.sessions.length;
     const efP=Math.round(((q.ef-1.3)/(4-1.3))*100);
     const dc=q.diff.toLowerCase();
+    const slug=lcSlug(q.title);
+    const hasNotes=q.notes&&q.notes.trim();
+    if(!dn)startTimer(q.id);
     return '<div class="q-card '+dc+(dn?' done':'')+'">'+
       '<div class="q-top"><div class="q-info">'+
-        '<div class="q-num">#'+q.num+'</div><div class="q-title">'+q.title+'</div>'+
+        '<div class="q-num"><a href="https://leetcode.com/problems/'+slug+'/" target="_blank" rel="noopener" class="lc-link">#'+q.num+'</a></div>'+
+        '<div class="q-title">'+q.title+'</div>'+
         '<div class="q-badges"><span class="badge b-'+dc+'">'+q.diff+'</span><span class="badge b-topic">'+q.topic+'</span>'+(nw?'<span class="badge b-new">New</span>':'<span class="badge b-rev">Review</span>')+'</div>'+
       '</div>'+
-      '<button class="done-btn '+(dn?'checked':'')+'" onclick="togDone('+q.id+')"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>'+
-      '<div class="ef-area"><div class="ef-lbl">EF '+q.ef.toFixed(2)+' · interval '+q.interval+'d</div><div class="ef-track"><div class="ef-fill" style="width:'+efP+'%"></div></div></div>'+
+      '<div style="display:flex;gap:5px;align-items:flex-start;flex-shrink:0">'+
+        '<button class="icon-btn" onclick="openHistory('+q.id+')" title="Review history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></button>'+
+        '<button class="icon-btn" onclick="openEdit('+q.id+')" title="Edit question"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>'+
+        '<button class="done-btn '+(dn?'checked':'')+'" onclick="togDone('+q.id+')"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+
+      '</div></div>'+
+      '<div class="ef-area"><div class="ef-meta"><span class="ef-lbl">EF '+q.ef.toFixed(2)+' · interval '+q.interval+'d</span>'+
+        (!dn?'<span class="timer-display" id="timer-'+q.id+'">'+fmtTime(getElapsed(q.id))+'</span>':'')+
+      '</div><div class="ef-track"><div class="ef-fill" style="width:'+efP+'%"></div></div></div>'+
       (!dn?'<div class="rate-row">'+
         '<button class="rate-btn r1" onclick="rate('+q.id+',1)">1<span class="rlbl">Blank</span></button>'+
         '<button class="rate-btn r2" onclick="rate('+q.id+',2)">2<span class="rlbl">Hard</span></button>'+
@@ -949,10 +1201,197 @@ function renderToday(){
         '<button class="rate-btn r4" onclick="rate('+q.id+',4)">4<span class="rlbl">Good</span></button>'+
         '<button class="rate-btn r5" onclick="rate('+q.id+',5)">5<span class="rlbl">Easy</span></button>'+
       '</div>':'<div style="font-size:13px;color:var(--green);font-weight:600;margin-top:8px">✓ Done for today</div>')+
+      '<div class="notes-section">'+
+        '<button class="notes-toggle" onclick="toggleNotes('+q.id+')">'+
+          '<svg id="ntarrow-'+q.id+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><polyline points="9 18 15 12 9 6"/></svg>'+
+          ' Notes'+(hasNotes?' <span style="color:var(--accent2);font-size:13px">•</span>':'')+
+        '</button>'+
+        '<div class="notes-body" id="notes-'+q.id+'" style="display:none">'+
+          '<textarea class="notes-ta" placeholder="Hints, approach, key insight…" onblur="saveNote('+q.id+',this.value)">'+escHtml(q.notes||'')+'</textarea>'+
+        '</div>'+
+      '</div>'+
     '</div>';
   }).join('');
 }
 
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ═══════ NOTES ═══════
+function toggleNotes(id){
+  const body=document.getElementById('notes-'+id);
+  const arrow=document.getElementById('ntarrow-'+id);
+  const open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  if(arrow)arrow.style.transform=open?'rotate(90deg)':'';
+}
+function saveNote(id,val){
+  const q=S.qs.find(x=>x.id===id);
+  if(q){q.notes=val;save();}
+}
+
+// ═══════ HISTORY MODAL ═══════
+function openHistory(id){
+  const q=S.qs.find(x=>x.id===id);if(!q)return;
+  const rlbl={1:'Blank',2:'Hard',3:'OK',4:'Good',5:'Easy'};
+  const rcol={1:'var(--red)',2:'#e17055',3:'var(--amber)',4:'#55efc4',5:'var(--green)'};
+  const rows=q.sessions.slice().reverse().map(s=>
+    '<div class="hist-row">'+
+      '<span class="hist-date">'+s.d+'</span>'+
+      '<span class="hist-rating" style="color:'+rcol[s.r]+'">'+s.r+' — '+(rlbl[s.r]||'')+'</span>'+
+      '<span class="hist-time">'+(s.t!=null?fmtTime(s.t):'—')+'</span>'+
+    '</div>'
+  ).join('')||'<div style="color:var(--muted);font-size:13px;padding:14px 0;text-align:center">No sessions yet</div>';
+  const avg=q.sessions.length?(q.sessions.reduce((a,s)=>a+s.r,0)/q.sessions.length).toFixed(1):'—';
+  document.getElementById('hist-title').textContent='#'+q.num+' '+q.title;
+  document.getElementById('hist-meta').textContent=q.sessions.length+' session'+(q.sessions.length!==1?'s':'')+' · avg rating '+avg;
+  document.getElementById('hist-rows').innerHTML=rows;
+  document.getElementById('history-overlay').classList.add('open');
+}
+function closeHistory(){document.getElementById('history-overlay').classList.remove('open');}
+
+// ═══════ EDIT MODAL ═══════
+function openEdit(id){
+  const q=S.qs.find(x=>x.id===id);if(!q)return;
+  editingId=id;editSelDiff=q.diff;
+  document.getElementById('edit-num').value=q.num;
+  document.getElementById('edit-title').value=q.title;
+  document.getElementById('edit-topic').value=q.topic;
+  document.getElementById('edit-notes').value=q.notes||'';
+  document.querySelectorAll('#edit-overlay .diff-opt').forEach(el=>{
+    el.className='diff-opt'+(el.dataset.d===q.diff?' sel-'+q.diff.toLowerCase():'');
+  });
+  document.getElementById('edit-overlay').classList.add('open');
+}
+function closeEdit(){document.getElementById('edit-overlay').classList.remove('open');editingId=null;}
+function pickEditDiff(el){
+  editSelDiff=el.dataset.d;
+  document.querySelectorAll('#edit-overlay .diff-opt').forEach(d=>{
+    d.className='diff-opt'+(d===el?' sel-'+d.dataset.d.toLowerCase():'');
+  });
+}
+function saveEdit(){
+  const q=S.qs.find(x=>x.id===editingId);if(!q)return;
+  const num=parseInt(document.getElementById('edit-num').value);
+  const title=document.getElementById('edit-title').value.trim();
+  if(!num||!title){toast('Number and title required');return;}
+  if(S.qs.find(x=>x.num===num&&x.id!==editingId)){toast('#'+num+' already exists');return;}
+  q.num=num;q.title=title;
+  q.topic=document.getElementById('edit-topic').value;
+  q.diff=editSelDiff;
+  q.notes=document.getElementById('edit-notes').value;
+  save();render();closeEdit();toast('Question updated');
+}
+function deleteFromEdit(){
+  const q=S.qs.find(x=>x.id===editingId);if(!q)return;
+  if(confirm('Delete #'+q.num+' '+q.title+'? This cannot be undone.')){
+    S.qs=S.qs.filter(x=>x.id!==editingId);
+    S.done=S.done.filter(x=>x!==editingId);
+    clearTimer(editingId);save();render();closeEdit();toast('Question deleted');
+  }
+}
+function deleteQDirect(id){
+  const q=S.qs.find(x=>x.id===id);if(!q)return;
+  if(confirm('Delete #'+q.num+' '+q.title+'?')){
+    S.qs=S.qs.filter(x=>x.id!==id);S.done=S.done.filter(x=>x!==id);
+    clearTimer(id);save();render();toast('Question deleted');
+  }
+}
+
+// ═══════ LIBRARY (Questions page) ═══════
+function renderLibrary(){
+  const el=document.getElementById('lib-list');if(!el)return;
+  const q=libSearch.toLowerCase();
+  const filtered=S.qs.filter(x=>!q||String(x.num).includes(q)||x.title.toLowerCase().includes(q)||x.topic.toLowerCase().includes(q))
+    .sort((a,b)=>a.num-b.num);
+  const cnt=document.getElementById('lib-count');
+  if(cnt)cnt.textContent=filtered.length+' of '+S.qs.length+' questions';
+  if(!filtered.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center">No questions found</div>';return;}
+  el.innerHTML=filtered.map(q=>{
+    const dc=q.diff.toLowerCase();
+    const bg=dc==='easy'?'var(--green-bg)':dc==='medium'?'var(--amber-bg)':'var(--red-bg)';
+    const col=dc==='easy'?'var(--green)':dc==='medium'?'var(--amber)':'var(--red)';
+    return '<div class="lib-item">'+
+      '<a href="https://leetcode.com/problems/'+lcSlug(q.title)+'/" target="_blank" rel="noopener" class="lib-num">#'+q.num+'</a>'+
+      '<div class="lib-title">'+escHtml(q.title)+'</div>'+
+      '<span class="lib-topic">'+q.topic+'</span>'+
+      '<span class="pool-diff" style="background:'+bg+';color:'+col+'">'+q.diff+'</span>'+
+      '<div class="lib-actions">'+
+        '<button class="icon-btn" onclick="openEdit('+q.id+')" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>'+
+        '<button class="icon-btn icon-btn-del" onclick="deleteQDirect('+q.id+')" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function searchLibrary(){libSearch=document.getElementById('lib-search').value;renderLibrary();}
+function toggleAddForm(){
+  const wrap=document.getElementById('add-form-wrap');
+  const btn=document.getElementById('toggle-add-btn');
+  const open=wrap.style.display==='none';
+  wrap.style.display=open?'block':'none';
+  btn.textContent=open?'✕ Cancel':'+ Add Question';
+}
+
+// ═══════ HEATMAP ═══════
+function buildActivityMap(){
+  const map={};
+  S.qs.forEach(q=>(q.sessions||[]).forEach(s=>{map[s.d]=(map[s.d]||0)+1;}));
+  return map;
+}
+function renderHeatmap(){
+  const el=document.getElementById('heatmap');if(!el)return;
+  const map=buildActivityMap(),today=tds();
+  const start=new Date(today+'T00:00:00');
+  start.setDate(start.getDate()-181);
+  start.setDate(start.getDate()-start.getDay()); // align to Sunday
+  const maxCount=Math.max(...Object.values(map),1);
+  const colors=['var(--bg3)','rgba(108,92,231,0.25)','rgba(108,92,231,0.45)','rgba(108,92,231,0.68)','var(--accent2)'];
+  const cells=[];
+  const d=new Date(start);
+  while(true){
+    const ds=d.toISOString().slice(0,10);
+    if(ds>today)break;
+    const cnt=map[ds]||0;
+    const lvl=cnt===0?0:Math.min(4,Math.ceil((cnt/maxCount)*4));
+    cells.push('<div class="hm-cell" style="background:'+colors[lvl]+'" title="'+ds+': '+cnt+' review'+(cnt!==1?'s':'')+'"></div>');
+    d.setDate(d.getDate()+1);
+  }
+  el.innerHTML=cells.join('');
+}
+
+// ═══════ CHARTS (SVG) ═══════
+function renderCharts(){
+  renderEFChart();renderReviewChart();
+}
+function svgBar(buckets,labels,W,H){
+  const PAD=28,max=Math.max(...buckets,1),BAR_H=H-PAD-18;
+  const bw=(W-PAD)/buckets.length;
+  let out='';
+  buckets.forEach((v,i)=>{
+    const x=PAD+i*bw+bw*0.12,bwi=bw*0.76;
+    const bh=(v/max)*BAR_H,by=H-PAD-bh;
+    const alpha=v===0?0.12:0.35+(v/max)*0.65;
+    out+='<rect x="'+x.toFixed(1)+'" y="'+by.toFixed(1)+'" width="'+bwi.toFixed(1)+'" height="'+Math.max(bh,2).toFixed(1)+'" rx="3" fill="rgba(108,92,231,'+alpha.toFixed(2))+'"/>';
+    if(v>0)out+='<text x="'+(x+bwi/2).toFixed(1)+'" y="'+(by-3).toFixed(1)+'" text-anchor="middle" fill="#c0c0d8" font-size="10" font-family="JetBrains Mono,monospace">'+v+'</text>';
+    out+='<text x="'+(x+bwi/2).toFixed(1)+'" y="'+(H-4).toFixed(1)+'" text-anchor="middle" fill="#6a6a90" font-size="9" font-family="Outfit,sans-serif">'+labels[i]+'</text>';
+  });
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">'+out+'</svg>';
+}
+function renderEFChart(){
+  const el=document.getElementById('ef-chart');if(!el)return;
+  const ranges=[[1.3,1.7],[1.7,2.1],[2.1,2.5],[2.5,2.9],[2.9,3.3],[3.3,5]];
+  const labels=['1.3','1.7','2.1','2.5','2.9','3.3+'];
+  const buckets=ranges.map(([lo,hi])=>S.qs.filter(q=>q.ef>=lo&&q.ef<hi).length);
+  el.innerHTML=svgBar(buckets,labels,300,130);
+}
+function renderReviewChart(){
+  const el=document.getElementById('review-chart');if(!el)return;
+  const map=buildActivityMap(),today=tds();
+  const data=Array.from({length:14},(_,i)=>{const d=ad(today,-(13-i));return{d,c:map[d]||0,lbl:DN[new Date(d+'T00:00:00').getDay()].slice(0,2)};});
+  const buckets=data.map(x=>x.c),labels=data.map(x=>x.lbl);
+  el.innerHTML=svgBar(buckets,labels,300,130);
+}
+
+// ═══════ SCHEDULE ═══════
 function simFuture(q,from,days){
   let ef=q.ef,interval=q.interval,cur=q.due;const res=[];
   for(let i=0;i<6;i++){if(daysBetween(from,cur)>days)break;res.push({date:cur});
@@ -960,71 +1399,72 @@ function simFuture(q,from,days){
     ef=sm2ef(ef,dr);interval=sm2int(interval,ef,dr);cur=ad(cur,interval);}
   return res;
 }
-
 function renderSched(){
   const t=tds(),days={};
   for(let d=0;d<=13;d++)days[ad(t,d)]=[];
   S.qs.forEach(q=>{
     if(days[q.due]!==undefined)days[q.due].push(q);
-    simFuture(q,t,14).forEach(function(r){if(r.date!==q.due&&days[r.date]!==undefined)days[r.date].push(Object.assign({},q,{_sim:1}));});
+    simFuture(q,t,14).forEach(r=>{if(r.date!==q.due&&days[r.date]!==undefined)days[r.date].push(Object.assign({},q,{_sim:1}));});
   });
-  document.getElementById('sched-list').innerHTML=Object.entries(days).map(function(entry){
-    var ds=entry[0],qs=entry[1];
-    var d=new Date(ds+'T00:00:00');
-    var label=ds===t?'Today':ds===ad(t,1)?'Tomorrow':DN[d.getDay()]+' '+MN[d.getMonth()]+' '+d.getDate();
-    var seen={},uq=[];qs.forEach(function(q){if(!seen[q.id]){seen[q.id]=1;uq.push(q);}});
+  document.getElementById('sched-list').innerHTML=Object.entries(days).map(([ds,qs])=>{
+    const d=new Date(ds+'T00:00:00');
+    const label=ds===t?'Today':ds===ad(t,1)?'Tomorrow':DN[d.getDay()]+' '+MN[d.getMonth()]+' '+d.getDate();
+    const seen={},uq=[];qs.forEach(q=>{if(!seen[q.id]){seen[q.id]=1;uq.push(q);}});
     if(!uq.length)return '<div class="sched-day"><div class="sched-day-hdr"><div class="day-dot" style="background:var(--bg3)"></div>'+label+'</div><div class="rest-label">Rest day</div></div>';
-    return '<div class="sched-day"><div class="sched-day-hdr"><div class="day-dot"></div>'+label+' <span style="color:var(--muted);font-size:10px">'+uq.length+' q</span></div><div class="sched-chips">'+uq.map(function(q){return '<span class="schip '+(q.sessions.length?'schip-rev':'schip-new')+'">#'+q.num+' '+q.title.split(' ').slice(0,2).join(' ')+'</span>';}).join('')+'</div></div>';
+    return '<div class="sched-day"><div class="sched-day-hdr"><div class="day-dot"></div>'+label+' <span style="color:var(--muted);font-size:10px">'+uq.length+' q</span></div><div class="sched-chips">'+uq.map(q=>'<span class="schip '+(q.sessions.length?'schip-rev':'schip-new')+'">#'+q.num+' '+q.title.split(' ').slice(0,2).join(' ')+'</span>').join('')+'</div></div>';
   }).join('');
 }
 
+// ═══════ PROGRESS ═══════
 function renderProg(){
-  var qs=S.qs,m=qs.filter(function(q){return q.ef>=2.8&&q.sessions.length>=3;}).length;
-  var nr=qs.filter(function(q){return q.ef<2.0;}).length,ts=qs.reduce(function(a,q){return a+q.sessions.length;},0);
+  const qs=S.qs,m=qs.filter(q=>q.ef>=2.8&&q.sessions.length>=3).length;
+  const nr=qs.filter(q=>q.ef<2.0).length,ts=qs.reduce((a,q)=>a+q.sessions.length,0);
   document.getElementById('prog-grid').innerHTML=
     '<div class="prog-card"><div class="big v-accent">'+qs.length+'</div><div class="lbl">Questions</div></div>'+
     '<div class="prog-card"><div class="big v-green">'+m+'</div><div class="lbl">Mastered</div></div>'+
     '<div class="prog-card"><div class="big v-red">'+nr+'</div><div class="lbl">Needs work</div></div>'+
     '<div class="prog-card"><div class="big v-amber">'+ts+'</div><div class="lbl">Total reviews</div></div>';
-  var tm={};
-  qs.forEach(function(q){if(!tm[q.topic])tm[q.topic]={t:0,m:0};tm[q.topic].t++;if(q.ef>=2.8&&q.sessions.length>=3)tm[q.topic].m++;});
-  var mx=Math.max.apply(null,Object.values(tm).map(function(t){return t.t;}));
-  document.getElementById('topics').innerHTML=Object.entries(tm).map(function(e){
-    return '<div class="topic-row"><div class="topic-name">'+e[0]+'</div>'+
-    '<div class="topic-bar-wrap"><div class="topic-bar"><div class="topic-bar-fill" style="width:'+Math.round(e[1].t/mx*100)+'%"></div></div></div>'+
-    '<div class="topic-count">'+e[1].m+'/'+e[1].t+'</div></div>';
-  }).join('');
+  const tm={};
+  qs.forEach(q=>{if(!tm[q.topic])tm[q.topic]={t:0,m:0};tm[q.topic].t++;if(q.ef>=2.8&&q.sessions.length>=3)tm[q.topic].m++;});
+  const mx=Math.max(...Object.values(tm).map(t=>t.t),1);
+  document.getElementById('topics').innerHTML=Object.entries(tm).map(([name,v])=>
+    '<div class="topic-row"><div class="topic-name">'+name+'</div>'+
+    '<div class="topic-bar-wrap"><div class="topic-bar"><div class="topic-bar-fill" style="width:'+Math.round(v.t/mx*100)+'%"></div></div></div>'+
+    '<div class="topic-count">'+v.m+'/'+v.t+'</div></div>'
+  ).join('');
+  renderHeatmap();renderCharts();
 }
 
-function togDone(id){S.done=S.done.includes(id)?S.done.filter(function(x){return x!==id;}):S.done.concat([id]);save();render();}
+// ═══════ GENERAL ═══════
+function togDone(id){S.done=S.done.includes(id)?S.done.filter(x=>x!==id):S.done.concat([id]);save();render();}
 
 function addQ(){
-  var n=parseInt(document.getElementById('inp-num').value);
-  var ti=document.getElementById('inp-title').value.trim();
-  var to=document.getElementById('inp-topic').value;
+  const n=parseInt(document.getElementById('inp-num').value);
+  const ti=document.getElementById('inp-title').value.trim();
+  const to=document.getElementById('inp-topic').value;
   if(!n||!ti){toast('Fill in Q# and title');return;}
-  if(S.qs.find(function(q){return q.num===n;})){toast('#'+n+' already exists');return;}
-  var t=tds();
-  S.qs.push({id:S.nid++,num:n,title:ti,topic:to,diff:selDiff,ef:2.5,interval:1,due:t,sessions:[],added:t});
+  if(S.qs.find(q=>q.num===n)){toast('#'+n+' already exists');return;}
+  const t=tds();
+  S.qs.push({id:S.nid++,num:n,title:ti,topic:to,diff:selDiff,ef:2.5,interval:1,due:t,sessions:[],added:t,notes:''});
   save();render();
   document.getElementById('inp-num').value='';
   document.getElementById('inp-title').value='';
-  go('today',document.getElementById('sb-today'));
+  toggleAddForm();
   toast('#'+n+' added — due today!');
 }
 
 function pickDiff(el){
   selDiff=el.dataset.d;
-  document.querySelectorAll('.diff-opt').forEach(function(d){
+  document.querySelectorAll('#diff-opts .diff-opt').forEach(d=>{
     d.className='diff-opt'+(d===el?' sel-'+d.dataset.d.toLowerCase():'');
   });
 }
 
 function go(name,btn){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.sidebar-btn, .nav-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-btn, .nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('p-'+name).classList.add('active');
-  document.querySelectorAll('.sidebar-btn, .nav-btn').forEach(function(b){
+  document.querySelectorAll('.sidebar-btn, .nav-btn').forEach(b=>{
     if(b.onclick&&b.onclick.toString().indexOf("'"+name+"'")>-1)b.classList.add('active');
   });
   if(btn)btn.classList.add('active');
@@ -1032,72 +1472,111 @@ function go(name,btn){
 }
 
 function toast(msg){
-  var t=document.getElementById('toast');
+  const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2200);
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ═══════ IMPORT / EXPORT ═══════
+function exportCSV(){
+  const header='num,title,topic,diff,ef,interval,due,added,notes';
+  const rows=S.qs.map(q=>{
+    const notes=(q.notes||'').replace(/"/g,'""');
+    return q.num+',"'+q.title.replace(/"/g,'""')+'","'+q.topic+'","'+q.diff+'",'+q.ef+','+q.interval+',"'+q.due+'","'+q.added+'","'+notes+'"';
+  });
+  const blob=new Blob([[header,...rows].join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='leettrack-'+tds()+'.csv';a.click();
+  URL.revokeObjectURL(url);toast('Exported '+S.qs.length+' questions');
+}
+function parseCSVLine(line){
+  const fields=[];let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+    else if(ch===','&&!inQ){fields.push(cur);cur='';}
+    else cur+=ch;
+  }
+  fields.push(cur);return fields;
+}
+function importCSV(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const lines=e.target.result.split('\n').filter(l=>l.trim());
+    let added=0,skipped=0;
+    lines.slice(1).forEach(line=>{
+      const f=parseCSVLine(line);
+      const num=parseInt(f[0]),title=f[1];
+      if(!num||!title){return;}
+      if(S.qs.find(q=>q.num===num)){skipped++;return;}
+      const diff=['Easy','Medium','Hard'].includes(f[3])?f[3]:'Medium';
+      const t=tds();
+      S.qs.push({id:S.nid++,num,title,topic:f[2]||'Other',diff,
+        ef:parseFloat(f[4])||2.5,interval:parseInt(f[5])||1,
+        due:f[6]||t,added:f[7]||t,sessions:[],notes:f[8]||''});
+      added++;
+    });
+    save();render();evt.target.value='';
+    toast('Imported '+added+(skipped?' · skipped '+skipped+' duplicates':''));
+  };
+  reader.readAsText(file);
 }
 
 // ═══════ SETTINGS ═══════
-function getAllTopics(){var s=new Set();S.qs.forEach(function(q){s.add(q.topic);});return Array.from(s).sort();}
-
+function getAllTopics(){const s=new Set();S.qs.forEach(q=>s.add(q.topic));return Array.from(s).sort();}
 function updateDaily(){
-  var v=parseInt(document.getElementById('sl-daily').value);
+  const v=parseInt(document.getElementById('sl-daily').value);
   document.getElementById('sl-daily-val').textContent=v;
   S.settings.dailyLimit=v;save();render();
 }
-
 function renderSettings(){
-  var st=S.settings;
+  const st=S.settings;
   document.getElementById('sl-daily').value=st.dailyLimit;
   document.getElementById('sl-daily-val').textContent=st.dailyLimit;
-  var allTopics=getAllTopics(),selTopics=st.topics||[];
-  document.getElementById('topic-chips').innerHTML=allTopics.map(function(t){
-    var active=selTopics.length===0||selTopics.indexOf(t)>-1;
+  const allTopics=getAllTopics(),selTopics=st.topics||[];
+  document.getElementById('topic-chips').innerHTML=allTopics.map(t=>{
+    const active=selTopics.length===0||selTopics.indexOf(t)>-1;
     return '<div class="fchip '+(active?'fchip-active':'')+'" data-t="'+t+'" onclick="togTopicFilter(this)">'+
       '<span class="fchip-check">'+(active?'<svg viewBox="0 0 12 12" width="10" height="10" fill="none"><polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')+'</span> '+t+'</div>';
   }).join('');
-  var selDiffs=st.diffs||['Easy','Medium','Hard'];
-  document.querySelectorAll('#diff-chips .fchip').forEach(function(el){
+  const selDiffs=st.diffs||['Easy','Medium','Hard'];
+  document.querySelectorAll('#diff-chips .fchip').forEach(el=>{
     if(selDiffs.indexOf(el.dataset.d)>-1)el.classList.add('fchip-active');
     else el.classList.remove('fchip-active');
   });
-  var filtered=getFilteredPool();
+  const filtered=getFilteredPool();
   document.getElementById('pool-summary').textContent=filtered.length+' of '+S.qs.length+' questions match filters (up to '+st.dailyLimit+'/day)';
-  document.getElementById('pool-preview').innerHTML=filtered.slice(0,20).map(function(q){
-    var dc=q.diff.toLowerCase();
-    var bg=dc==='easy'?'var(--green-bg)':dc==='medium'?'var(--amber-bg)':'var(--red-bg)';
-    var col=dc==='easy'?'var(--green)':dc==='medium'?'var(--amber)':'var(--red)';
+  document.getElementById('pool-preview').innerHTML=filtered.slice(0,20).map(q=>{
+    const dc=q.diff.toLowerCase();
+    const bg=dc==='easy'?'var(--green-bg)':dc==='medium'?'var(--amber-bg)':'var(--red-bg)';
+    const col=dc==='easy'?'var(--green)':dc==='medium'?'var(--amber)':'var(--red)';
     return '<div class="pool-item"><span class="pool-num">#'+q.num+'</span><span class="pool-title">'+q.title+'</span><span class="pool-diff" style="background:'+bg+';color:'+col+'">'+q.diff+'</span></div>';
-  }).join('')+(filtered.length>20?'<div style="font-size:12px;color:var(--muted);padding:8px 0;text-align:center">+' +(filtered.length-20)+' more</div>':'');
+  }).join('')+(filtered.length>20?'<div style="font-size:12px;color:var(--muted);padding:8px 0;text-align:center">+'+(filtered.length-20)+' more</div>':'');
 }
-
 function getFilteredPool(){
-  var st=S.settings,pool=S.qs.slice();
-  if(st.topics&&st.topics.length>0)pool=pool.filter(function(q){return st.topics.indexOf(q.topic)>-1;});
-  if(st.diffs&&st.diffs.length>0&&st.diffs.length<3)pool=pool.filter(function(q){return st.diffs.indexOf(q.diff)>-1;});
+  let pool=S.qs.slice(),st=S.settings;
+  if(st.topics&&st.topics.length>0)pool=pool.filter(q=>st.topics.indexOf(q.topic)>-1);
+  if(st.diffs&&st.diffs.length>0&&st.diffs.length<3)pool=pool.filter(q=>st.diffs.indexOf(q.diff)>-1);
   return pool;
 }
-
 function togTopicFilter(el){
-  var t=el.dataset.t,st=S.settings;if(!st.topics)st.topics=[];
-  var allTopics=getAllTopics();
-  if(st.topics.length===0){st.topics=[t];}
-  else if(st.topics.indexOf(t)>-1){st.topics=st.topics.filter(function(x){return x!==t;});if(st.topics.length===0)st.topics=[];}
+  const t=el.dataset.t,st=S.settings;if(!st.topics)st.topics=[];
+  const allTopics=getAllTopics();
+  if(st.topics.length===0)st.topics=[t];
+  else if(st.topics.indexOf(t)>-1){st.topics=st.topics.filter(x=>x!==t);if(st.topics.length===0)st.topics=[];}
   else{st.topics.push(t);if(st.topics.length>=allTopics.length)st.topics=[];}
   save();render();
 }
-
 function togDiffFilter(el){
-  var d=el.dataset.d,st=S.settings;if(!st.diffs)st.diffs=['Easy','Medium','Hard'];
-  if(st.diffs.indexOf(d)>-1){st.diffs=st.diffs.filter(function(x){return x!==d;});if(st.diffs.length===0){st.diffs=['Easy','Medium','Hard'];toast('Need at least one difficulty');}}
+  const d=el.dataset.d,st=S.settings;if(!st.diffs)st.diffs=['Easy','Medium','Hard'];
+  if(st.diffs.indexOf(d)>-1){st.diffs=st.diffs.filter(x=>x!==d);if(st.diffs.length===0){st.diffs=['Easy','Medium','Hard'];toast('Need at least one difficulty');}}
   else st.diffs.push(d);
   save();render();
 }
-
 function resetAll(){
   if(confirm('Delete all questions and progress?')){S=defaults();save();render();go('today',document.getElementById('sb-today'));toast('All data reset');}
 }
-</script>
 </script>
 </body>
 </html>
