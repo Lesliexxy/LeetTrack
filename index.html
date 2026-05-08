@@ -1099,13 +1099,13 @@ function defaults(){
   const t=tds();
   return {
     qs:[
-      {id:1,num:236,title:"Lowest Common Ancestor of BST",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t,notes:''},
-      {id:2,num:102,title:"Level Order Traversal",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t,notes:''},
-      {id:3,num:200,title:"Number of Islands",topic:"Graph",diff:"Medium",ef:2.3,interval:1,due:t,sessions:[],added:t,notes:''},
-      {id:4,num:1,title:"Two Sum",topic:"HashMap",diff:"Easy",ef:2.9,interval:14,due:ad(t,10),sessions:[{d:ad(t,-4),r:5,t:30}],added:ad(t,-4),notes:''},
-      {id:5,num:21,title:"Merge Two Sorted Lists",topic:"Linked List",diff:"Easy",ef:2.7,interval:6,due:ad(t,2),sessions:[{d:ad(t,-4),r:4,t:55}],added:ad(t,-4),notes:''},
-      {id:6,num:42,title:"Trapping Rain Water",topic:"Two Pointers",diff:"Hard",ef:2.1,interval:1,due:ad(t,3),sessions:[],added:ad(t,-1),notes:''},
-      {id:7,num:300,title:"Longest Increasing Subsequence",topic:"Dynamic Programming",diff:"Medium",ef:2.5,interval:1,due:ad(t,1),sessions:[],added:ad(t,-1),notes:''},
+      {id:1,num:236,title:"Lowest Common Ancestor of a Binary Search Tree",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t,notes:'',slug:'lowest-common-ancestor-of-a-binary-search-tree'},
+      {id:2,num:102,title:"Binary Tree Level Order Traversal",topic:"Tree",diff:"Medium",ef:2.5,interval:1,due:t,sessions:[],added:t,notes:'',slug:'binary-tree-level-order-traversal'},
+      {id:3,num:200,title:"Number of Islands",topic:"Graph",diff:"Medium",ef:2.3,interval:1,due:t,sessions:[],added:t,notes:'',slug:'number-of-islands'},
+      {id:4,num:1,title:"Two Sum",topic:"HashMap",diff:"Easy",ef:2.9,interval:14,due:ad(t,10),sessions:[{d:ad(t,-4),r:5,t:30}],added:ad(t,-4),notes:'',slug:'two-sum'},
+      {id:5,num:21,title:"Merge Two Sorted Lists",topic:"Linked List",diff:"Easy",ef:2.7,interval:6,due:ad(t,2),sessions:[{d:ad(t,-4),r:4,t:55}],added:ad(t,-4),notes:'',slug:'merge-two-sorted-lists'},
+      {id:6,num:42,title:"Trapping Rain Water",topic:"Two Pointers",diff:"Hard",ef:2.1,interval:1,due:ad(t,3),sessions:[],added:ad(t,-1),notes:'',slug:'trapping-rain-water'},
+      {id:7,num:300,title:"Longest Increasing Subsequence",topic:"Dynamic Programming",diff:"Medium",ef:2.5,interval:1,due:ad(t,1),sessions:[],added:ad(t,-1),notes:'',slug:'longest-increasing-subsequence'},
     ],
     nid:8,streak:1,lastStudy:t,done:[],
     settings:{dailyLimit:5,topics:[],diffs:['Easy','Medium','Hard']}
@@ -1124,12 +1124,14 @@ function sm2ef(ef,r){return Math.round(Math.max(1.3,ef+0.1-(5-r)*(0.08+(5-r)*0.0
 function sm2int(i,ef,r){if(r<3)return 1;if(i<=1)return 1;if(i===1)return 6;return Math.round(i*ef);}
 
 function lcSlug(title){return title.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');}
+function qLink(q){return q.slug?'https://leetcode.com/problems/'+q.slug+'/':'https://leetcode.com/problemset/?search='+q.num;}
 
 // ═══════ LC AUTO-LOOKUP ═══════
-let lcTimer=null;
+let lcTimer=null, pendingSlug='';
 function onNumInput(){
   const num=parseInt(document.getElementById('inp-num').value);
   clearTimeout(lcTimer);
+  pendingSlug='';
   if(!num||num<1)return;
   lcTimer=setTimeout(()=>lookupLC(num),800);
 }
@@ -1145,7 +1147,7 @@ async function lookupLC(num){
     const json=await r.json();
     const list=(json?.data?.problemsetQuestionList?.questions)||[];
     const match=list.find(q=>String(q.questionFrontendId)===String(num));
-    if(match){titleEl.value=match.title;toast('✓ Auto-filled: '+match.title);}
+    if(match){titleEl.value=match.title;pendingSlug=match.titleSlug;toast('✓ Auto-filled: '+match.title);}
   }catch(e){}
 }
 function fmtTime(s){if(s<60)return s+'s';return Math.floor(s/60)+'m '+(s%60)+'s';}
@@ -1205,13 +1207,13 @@ function renderToday(){
     const dn=S.done.includes(q.id),nw=!q.sessions.length;
     const efP=Math.round(((q.ef-1.3)/(4-1.3))*100);
     const dc=q.diff.toLowerCase();
-    const slug=lcSlug(q.title);
+    const slug=q.slug||lcSlug(q.title);
     const hasNotes=q.notes&&q.notes.trim();
     if(!dn)startTimer(q.id);
     return '<div class="q-card '+dc+(dn?' done':'')+'">'+
       '<div class="q-top"><div class="q-info">'+
-        '<div class="q-num"><a href="https://leetcode.com/problems/'+slug+'/" target="_blank" rel="noopener" class="lc-link">#'+q.num+'</a></div>'+
-        '<a href="https://leetcode.com/problems/'+slug+'/" target="_blank" rel="noopener" class="q-title">'+q.title+'</a>'+
+        '<div class="q-num"><a href="'+qLink(q)+'" target="_blank" rel="noopener" class="lc-link">#'+q.num+'</a></div>'+
+        '<a href="'+qLink(q)+'" target="_blank" rel="noopener" class="q-title">'+q.title+'</a>'+
         '<div class="q-badges"><span class="badge b-'+dc+'">'+q.diff+'</span><span class="badge b-topic">'+q.topic+'</span>'+(nw?'<span class="badge b-new">New</span>':'<span class="badge b-rev">Review</span>')+'</div>'+
       '</div>'+
       '<div style="display:flex;gap:5px;align-items:flex-start;flex-shrink:0">'+
@@ -1339,8 +1341,8 @@ function renderLibrary(){
     const bg=dc==='easy'?'var(--green-bg)':dc==='medium'?'var(--amber-bg)':'var(--red-bg)';
     const col=dc==='easy'?'var(--green)':dc==='medium'?'var(--amber)':'var(--red)';
     return '<div class="lib-item">'+
-      '<a href="https://leetcode.com/problems/'+lcSlug(q.title)+'/" target="_blank" rel="noopener" class="lib-num">#'+q.num+'</a>'+
-      '<a href="https://leetcode.com/problems/'+lcSlug(q.title)+'/" target="_blank" rel="noopener" class="lib-title">'+escHtml(q.title)+'</a>'+
+      '<a href="'+qLink(q)+'" target="_blank" rel="noopener" class="lib-num">#'+q.num+'</a>'+
+      '<a href="'+qLink(q)+'" target="_blank" rel="noopener" class="lib-title">'+escHtml(q.title)+'</a>'+
       '<span class="lib-topic">'+q.topic+'</span>'+
       '<span class="pool-diff" style="background:'+bg+';color:'+col+'">'+q.diff+'</span>'+
       '<div class="lib-actions">'+
@@ -1473,7 +1475,8 @@ function addQ(){
   if(!n||!ti){toast('Fill in Q# and title');return;}
   if(S.qs.find(q=>q.num===n)){toast('#'+n+' already exists');return;}
   const t=tds();
-  S.qs.push({id:S.nid++,num:n,title:ti,topic:to,diff:selDiff,ef:2.5,interval:1,due:t,sessions:[],added:t,notes:''});
+  S.qs.push({id:S.nid++,num:n,title:ti,topic:to,diff:selDiff,ef:2.5,interval:1,due:t,sessions:[],added:t,notes:'',slug:pendingSlug||lcSlug(ti)});
+  pendingSlug='';
   save();render();
   document.getElementById('inp-num').value='';
   document.getElementById('inp-title').value='';
