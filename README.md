@@ -44,28 +44,54 @@ A typical progression: Day 1 → Day 3 → Day 7 → Day 16 → Day 38 → ...
 ## Features
 
 ### Today's Queue
-Your daily review list, auto-generated from the SM-2 schedule. Rate each problem after reviewing it and the next date recalculates instantly.
+Your daily review list, auto-generated from the SM-2 schedule. Each card shows:
+- Difficulty badge, topic, and EF progress bar
+- A **stopwatch** that starts automatically when the card appears, so you can track how long each problem takes
+- Five rating buttons (1 Blank → 5 Easy) — rating recalculates the next review date instantly
+- Expandable **Notes** section for hints, approach notes, or key insights
+- **Review history** button (clock icon) — see every past session with date, rating, and time spent
+- **Edit** button — update the question's title, topic, difficulty, or notes inline
+- Clickable question **number and title** — links directly to the problem on LeetCode
 
 ### 14-Day Schedule
 See what's coming up across the next two weeks. New introductions are marked in blue, reviews in purple.
 
-### Add Questions
-Add any LeetCode problem by number, title, topic, and difficulty. It drops into your queue immediately.
+### Questions Library
+A searchable list of every problem in your pool:
+- **Search** by number, title, or topic
+- **Add questions** inline — type a number and the title auto-fills from LeetCode's API
+- Each number and title links directly to leetcode.com
+- **Edit** or **delete** any question from the list
 
 ### Progress Dashboard
-Track mastered vs. needs-work counts, total review sessions, and topic-by-topic breakdowns.
+- Mastered vs. needs-work counts, total review sessions
+- Topic-by-topic breakdown with progress bars
+- **26-week activity heatmap** — GitHub-style grid showing days you reviewed
+- **EF distribution chart** — see how your ease factors are spread across the pool
+- **14-day review chart** — daily review counts over the past two weeks
 
 ### Settings
 - **Daily review limit** — slider from 1 to 20 questions per day
 - **Topic filter** — toggle topics on/off to focus your queue
 - **Difficulty filter** — include or exclude Easy, Medium, Hard
-- **Active pool preview** — see exactly which questions match your filters
+- **Active pool preview** — see exactly which questions match your current filters
+- **Import CSV** — bulk-add questions from a CSV file
+- **Export CSV** — back up your entire question pool with all SM-2 data
+- **Reset all data** — wipe everything and start fresh
 
 ### Cloud Sync (Firebase)
 - Sign in with Google or email/password
 - All data syncs to Firestore automatically
 - Works offline and syncs when reconnected
 - Switch devices without losing progress
+
+---
+
+## LeetCode Links
+
+Question numbers and titles are clickable links that open the corresponding LeetCode problem in a new tab.
+
+When you add a new question, typing the problem number triggers an automatic lookup against LeetCode's API. If the lookup succeeds, the title is filled in and the exact LeetCode URL slug is saved — so the link always lands on the right page. If the API is unavailable (CORS), enter the title manually using LeetCode's exact problem title to ensure the link works.
 
 ---
 
@@ -126,9 +152,7 @@ The app adapts between desktop and mobile:
 
 ## Roadmap
 
-- [ ] Import/export question pool as JSON or CSV
 - [ ] Bulk add from LeetCode problem lists (e.g. Blind 75, Grind 169)
-- [ ] Review history charts and learning curve visualization
 - [ ] Shared study groups with leaderboard
 - [ ] Dark/light theme toggle
 
