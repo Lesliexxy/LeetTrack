@@ -535,6 +535,10 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
    ═══════════════════════════════════════════ */
 .lc-link { color: var(--muted); text-decoration: none; font-family: var(--mono); font-size: 12px; font-weight: 500; transition: color 0.12s; }
 .lc-link:hover { color: var(--accent2); text-decoration: underline; }
+a.q-title { color: inherit; text-decoration: none; display: block; transition: color 0.12s; }
+a.q-title:hover { color: var(--accent2); }
+a.lib-title { color: inherit; text-decoration: none; transition: color 0.12s; }
+a.lib-title:hover { color: var(--accent2); }
 .ef-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .timer-display { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--bg3); padding: 2px 8px; border-radius: 10px; }
 .icon-btn { background: none; border: 1px solid var(--border2); border-radius: 7px; padding: 5px 7px; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: all 0.12s; flex-shrink: 0; }
@@ -715,7 +719,7 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
                 <div class="fg">
                   <div class="fg-label">Question Number</div>
-                  <input class="fg-input" id="inp-num" type="number" placeholder="e.g. 236" min="1" max="9999">
+                  <input class="fg-input" id="inp-num" type="number" placeholder="e.g. 236" min="1" max="9999" oninput="onNumInput()">
                 </div>
                 <div class="fg">
                   <div class="fg-label">Topic</div>
@@ -1120,6 +1124,30 @@ function sm2ef(ef,r){return Math.round(Math.max(1.3,ef+0.1-(5-r)*(0.08+(5-r)*0.0
 function sm2int(i,ef,r){if(r<3)return 1;if(i<=1)return 1;if(i===1)return 6;return Math.round(i*ef);}
 
 function lcSlug(title){return title.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');}
+
+// ═══════ LC AUTO-LOOKUP ═══════
+let lcTimer=null;
+function onNumInput(){
+  const num=parseInt(document.getElementById('inp-num').value);
+  clearTimeout(lcTimer);
+  if(!num||num<1)return;
+  lcTimer=setTimeout(()=>lookupLC(num),800);
+}
+async function lookupLC(num){
+  const titleEl=document.getElementById('inp-title');
+  if(titleEl.value.trim())return;
+  try{
+    const r=await fetch('https://leetcode.com/graphql',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({query:'{ problemsetQuestionList(categorySlug:"",limit:5,skip:0,filters:{searchKeywords:"'+num+'"}) { questions { questionFrontendId title titleSlug } } }'})
+    });
+    const json=await r.json();
+    const list=(json?.data?.problemsetQuestionList?.questions)||[];
+    const match=list.find(q=>String(q.questionFrontendId)===String(num));
+    if(match){titleEl.value=match.title;toast('✓ Auto-filled: '+match.title);}
+  }catch(e){}
+}
 function fmtTime(s){if(s<60)return s+'s';return Math.floor(s/60)+'m '+(s%60)+'s';}
 function startTimer(id){if(!timerStarts[id])timerStarts[id]=Date.now();}
 function getElapsed(id){return timerStarts[id]?Math.round((Date.now()-timerStarts[id])/1000):0;}
@@ -1183,7 +1211,7 @@ function renderToday(){
     return '<div class="q-card '+dc+(dn?' done':'')+'">'+
       '<div class="q-top"><div class="q-info">'+
         '<div class="q-num"><a href="https://leetcode.com/problems/'+slug+'/" target="_blank" rel="noopener" class="lc-link">#'+q.num+'</a></div>'+
-        '<div class="q-title">'+q.title+'</div>'+
+        '<a href="https://leetcode.com/problems/'+slug+'/" target="_blank" rel="noopener" class="q-title">'+q.title+'</a>'+
         '<div class="q-badges"><span class="badge b-'+dc+'">'+q.diff+'</span><span class="badge b-topic">'+q.topic+'</span>'+(nw?'<span class="badge b-new">New</span>':'<span class="badge b-rev">Review</span>')+'</div>'+
       '</div>'+
       '<div style="display:flex;gap:5px;align-items:flex-start;flex-shrink:0">'+
@@ -1312,7 +1340,7 @@ function renderLibrary(){
     const col=dc==='easy'?'var(--green)':dc==='medium'?'var(--amber)':'var(--red)';
     return '<div class="lib-item">'+
       '<a href="https://leetcode.com/problems/'+lcSlug(q.title)+'/" target="_blank" rel="noopener" class="lib-num">#'+q.num+'</a>'+
-      '<div class="lib-title">'+escHtml(q.title)+'</div>'+
+      '<a href="https://leetcode.com/problems/'+lcSlug(q.title)+'/" target="_blank" rel="noopener" class="lib-title">'+escHtml(q.title)+'</a>'+
       '<span class="lib-topic">'+q.topic+'</span>'+
       '<span class="pool-diff" style="background:'+bg+';color:'+col+'">'+q.diff+'</span>'+
       '<div class="lib-actions">'+
