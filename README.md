@@ -1,8 +1,8 @@
 # LeetTrack
 
-**SM-2 spaced repetition for LeetCode.**
+**Spaced repetition for LeetCode — with multiple learning curve modes.**
 
-LeetTrack is a free, open-source web app that helps you systematically review LeetCode problems using the SM-2 spaced repetition algorithm — the same algorithm that powers Anki. It runs entirely in the browser with optional cloud sync via Firebase, so your data is never lost.
+LeetTrack is a free, open-source web app that helps you systematically review LeetCode problems using research-backed spaced repetition algorithms. Choose from four learning curves (SM-2, Interview Sprint, Long-term Mastery, or Half-life) depending on your study goal. It runs entirely in the browser with optional cloud sync via Firebase, so your data is never lost.
 
 **Live app → [lesliexxy.github.io/LeetTrack](https://lesliexxy.github.io/LeetTrack)**
 
@@ -19,25 +19,44 @@ Grinding LeetCode without a system leads to wasted time re-solving problems you'
 
 ---
 
-## How the SM-2 Algorithm Works
+## How Spaced Repetition Works
 
-After each review, you rate your recall from 1 (blank) to 5 (easy). The algorithm adjusts two values:
+After each review, you rate your recall from 1 (blank) to 5 (easy). The selected algorithm uses that rating to adjust two values per problem:
 
-**Ease Factor (EF):** starts at 2.5 and moves up or down based on your rating. Higher EF = the problem is getting easier for you.
+- **Ease Factor (EF)** — measures how well you know the problem. Higher EF = longer future intervals.
+- **Interval** — days until the next review. Grows exponentially on success, shrinks or resets on failure.
+
+The core insight: review a problem right before you'd forget it, not while it's fresh and not after it's completely gone.
+
+## Learning Curves
+
+Choose your algorithm in Settings → Learning Curve. Switching modes only affects future intervals — existing progress is preserved.
+
+### 📐 SM-2 Classic (default)
+The SuperMemo 2 algorithm, the same system that powers Anki. Ease factor adjusts per rating:
 
 ```
 EF(new) = max(1.3, EF + 0.1 − (5 − rating) × (0.08 + (5 − rating) × 0.02))
+interval = previous_interval × EF
 ```
 
-**Interval:** the number of days until your next review. If you rate ≥ 3, the interval grows exponentially. If you rate 1–2, it resets to 1 day.
+Typical progression: Day 1 → Day 3 → Day 8 → Day 21 → Day 55 → ...
+
+### 🚀 Interview Sprint
+Intervals are capped at 14 days and grow more slowly. You'll see every problem more often — designed for intensive review in the 2–4 weeks before an interview.
+
+### 🌱 Long-term Mastery
+Intervals grow 1.3× faster than SM-2 with a higher EF floor (min 1.5). Best if you're building a problem pool for retention over many months.
+
+### ⚗️ Half-life
+Based on memory half-life research (p = 2^(−t/h)), inspired by Duolingo's Half-Life Regression model. Each successful recall multiplies the current interval by a fixed factor (~2×), creating geometric doubling. Failures halve the interval rather than resetting to 1 day.
 
 ```
-Rating 1–2  →  interval resets to 1 day (review tomorrow)
-Rating 3    →  interval grows slowly
-Rating 4–5  →  interval = previous interval × EF
+Rating 1–2  →  interval × 0.5 (minimum 1 day)
+Rating 3    →  interval × 1.3
+Rating 4    →  interval × 2.0
+Rating 5    →  interval × 2.2
 ```
-
-A typical progression: Day 1 → Day 3 → Day 7 → Day 16 → Day 38 → ...
 
 ---
 
@@ -71,12 +90,14 @@ A searchable list of every problem in your pool:
 - **14-day review chart** — daily review counts over the past two weeks
 
 ### Settings
+- **Appearance** — toggle between dark and light mode (persists across sessions)
+- **Learning Curve** — choose your scheduling algorithm (SM-2, Sprint, Mastery, Half-life)
 - **Daily review limit** — slider from 1 to 20 questions per day
 - **Topic filter** — toggle topics on/off to focus your queue
 - **Difficulty filter** — include or exclude Easy, Medium, Hard
 - **Active pool preview** — see exactly which questions match your current filters
 - **Import CSV** — bulk-add questions from a CSV file
-- **Export CSV** — back up your entire question pool with all SM-2 data
+- **Export CSV** — back up your entire question pool with all scheduling data
 - **Reset all data** — wipe everything and start fresh
 
 ### Cloud Sync (Firebase)
@@ -104,7 +125,7 @@ When you add a new question, typing the problem number triggers an automatic loo
 | Auth | Firebase Authentication (Google + email/password) |
 | Database | Cloud Firestore with offline persistence |
 | Hosting | GitHub Pages (free) |
-| Algorithm | SM-2 (SuperMemo 2) spaced repetition |
+| Algorithms | SM-2, Interview Sprint, Long-term Mastery, Half-life |
 
 The entire app is a single `index.html` file. No dependencies, no bundler, no npm install.
 
@@ -154,7 +175,7 @@ The app adapts between desktop and mobile:
 
 - [ ] Bulk add from LeetCode problem lists (e.g. Blind 75, Grind 169)
 - [ ] Shared study groups with leaderboard
-- [ ] Dark/light theme toggle
+- [ ] Company tag filter (Google, Meta, Amazon, etc.)
 
 ---
 
